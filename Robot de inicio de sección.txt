@@ -1,0 +1,177 @@
+#!C:/Python3/python.exe
+from selenium import webdriver
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.chrome.options import Options
+import time
+import datetime
+import threading
+import getopt
+import os
+import cherrypy
+import os.path
+from random import choice
+import webbrowser
+
+class Bugged(object):
+    
+    def index(self, length=9):
+        
+        p=globals()
+        length = 9
+        valores = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ<=>@#%&+"
+
+        p = ""
+        p = p.join([choice(valores) for i in range(length)])
+        
+        output = '''
+        <head>
+        <FONT FACE="arial">
+        <meta charset="UTF-8">
+        <title>CodePen - Responsive Login Form</title>
+        <link rel='stylesheet' href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'><link rel="stylesheet" href="./style.css">
+            
+        <div style="background:#FF4D00">
+        <table border="1" align="center">
+        <div class="login" style="text-align:center;>
+        <br>
+        <div class="login-header">
+        <br>
+        <br>
+        <br>
+        <h1>Acceso Wi-fi</h1>
+        <div class="login-form">
+        <form action="helloName" method="GET">
+        <h3>Nuevo nombre</h3>
+        <input type="text" placeholder="nombre - red wi-fi" name="name"/><br>
+        <h3>Nueva clave</h3>
+        <input type="text" placeholder="clave - red wi-fi" name="names"/>
+        <br>
+        <br>
+        <input type="submit" value="Aplicar" class="login-button"/>
+        <br>
+        <br>
+        </form>
+        <p style = "font face= "verdana">
+        <p><font size="4" color="#FBFCFC">Asistente: 
+       
+        <a href="hello" target="_blank">Generar clave</a></font></p>
+        <form>
+        <input value="Generar aqui" onclick="history.go(0)" type="button">
+        </form>
+        <br>
+        <br>
+        
+        
+        %s '''  % p
+        
+        mensaje = '''<html>
+            <head></head>
+            <body>
+            <p>______________________________________</p>
+            
+            </div>
+            </div>
+            <FONT FACE="Impact">
+            <marquee behavior="scroll" direction="right" scrollamount="10">Claves mayores a 8 digitos</marquee>
+            <marquee behavior="scroll" direction="right" scrollamount="5">Avidtel Interconecta tu vida</marquee>
+            <marquee behavior="scroll" direction="right" scrollamount="8">Cambia su clave wi-fi</marquee>
+            <marquee behavior="scroll" direction="right" scrollamount="12">Utiliza el asistente</marquee>
+            <marquee behavior="scroll" direction="right" scrollamount="14">Usa Mayusculas y minusculas</marquee>
+    
+            </body>
+            </html>'''  
+            
+        
+        return output, mensaje
+    index.exposed = True
+
+    def hello(self, length=9):
+        
+        length = 9
+        valores = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ<=>@#%&+"
+
+        p = ""
+        p = p.join([choice(valores) for i in range(length)])
+       
+        output = '''
+
+        <head>
+        <FONT FACE="arial">
+        <meta charset="UTF-8">
+        <title>CodePen - Responsive Login Form</title>
+        <link rel='stylesheet' href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'><link rel="stylesheet" href="./style.css">
+
+        </head>
+        <div style="background:#FF4D00">
+        <table border="1" align="center">
+        <div class="login" style="text-align:center;>
+        <br>
+        <div class="login-header">
+        </div>
+        <br>
+        <br>
+
+        <center>
+        <p><font size="7" color="black">Copia su clave: </font></p>
+        <form action="index" method="GET">
+      
+        <input type="submit" value="VOLVER" class="login-button"/>
+       
+        </form>
+        <form>
+        <input value="Generar" onclick="history.go(0)" type="button">
+        </form>
+        
+        <br>
+        <br>
+        %s '''  % p
+        
+        
+        return output
+    hello.exposed = True
+
+
+    def helloName(self, name=None, names=None):
+        if name:
+            output="Su nuevo nombre y clave es: %s " % name, names
+            
+            try:         
+          
+              def resource_path(relative_path):
+                  try:
+                      base_path = sys._MEIPASS
+                  except Exception:
+                       base_path = os.path.dirname(__file__)
+                  return os.path.join(base_path, relative_path)
+
+              options = webdriver.ChromeOptions()
+              options.add_argument('headless')
+              options.add_argument('window-size=1920x1080')
+              options.add_argument("disable-gpu")
+              options.add_argument ("- ignore-certificate-errors")
+
+              driver = webdriver.Chrome(resource_path('./driver/chromedriver.exe'), options = options)
+              driver.get('http://192.168.100.100')
+              driver.find_element_by_id('txt_Username').clear()
+              driver.find_element_by_id('txt_Password').clear()
+              element = driver.find_element_by_id("txt_Username") 
+              element.send_keys("xxxx") 
+              element = driver.find_element_by_id("txt_Password")
+              element.send_keys("xxxx")
+              try:
+               driver.find_element_by_id("button").click()
+              except:
+               driver.find_element_by_id("loginbutton").click()
+			   
+     return output, mensaje
+    index.exposed = True
+	
+	if __name__ == '__main__':
+    cherrypy.config.update({'server.socket_host': '0.0.0.0',
+                        'server.socket_port': 8080,
+                       })
+    
+    web = Bugged()
+    cherrypy.tree.mount(web, '/')
+    cherrypy.engine.start()
+    cherrypy.engine.block()
